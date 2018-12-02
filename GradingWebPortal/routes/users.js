@@ -69,7 +69,7 @@ router.post('/newUser', function(req, res, next) {
 
 
 router.post('/signIn', function(req,res,next) {
-  console.log("Admin signin....", req.body);
+  console.log("Admin signin....", req.body , router.headers);
     User.findOne({userName : req.body.inputEmail}).exec()
         .then( adminUser => {
             console.log('Reading user data' , req.body.inputPassword , '  ', adminUser.password);
@@ -93,8 +93,8 @@ router.post('/signIn', function(req,res,next) {
                     if (token !== null){
                         let tokenValue = 'BEARER ' + token;
                         req.headers = tokenValue;
-                        console.log("Adding to session :", req.session);
-                        res.render('dashboard',{title:'dashboard',token: tokenValue});
+                        console.log("Adding to session :", req.headers);
+                        res.render('dashboard',{title:'dashboard',token: req.headers});
                     }
                 }
             })

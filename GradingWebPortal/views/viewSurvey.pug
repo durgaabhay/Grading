@@ -47,46 +47,47 @@ nav.navbar.navbar-dark.sticky-top.bg-dark.flex-md-nowrap.p-0
                             span(data-feather='aperture')
                             |                             Preview Survey
                     li.nav-item
-                        a.nav-link(href='/scores/showScoreBoard')
+                        a.nav-link(href='/scoreBoard/showScoreBoard')
                             span(data-feather='bar-chart-2')
                             |                             Score Board
         main.col-md-9.ml-sm-auto.col-lg-10.pt-3.px-4(role='main')
             .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-3.border-bottom
-                h1.h2 ADD SURVEY
-            form(method='post' action='/surveys/addSurvey')
-                .form-group
-                    label(name='q1') Question 1
-                    input.form-control(type='text' name='ques1' placeholder='Enter survey question 1')
-                .form-group
-                    label(name='q2') Question 2
-                    input.form-control(type='text' name='ques2' placeholder='Enter survey question 2')
-                .form-group
-                    label(name='q3') Question 3
-                    input.form-control(type='text' name='ques3' placeholder='Enter survey question 3')
-                .form-group
-                    label(name='q4') Question 4
-                    input.form-control(type='text' name='ques4' placeholder='Enter survey question 4')
-                .form-group
-                    label(name='q5') Question 5
-                    input.form-control(type='text' name='ques5' placeholder='Enter survey question 5')
-                .form-group
-                    label(name='q6') Question 6
-                    input.form-control(type='text' name='ques6' placeholder='Enter survey question 6')
-                .form-group
-                    label(name='q7') Question 7
-                    input.form-control(type='text' name='ques7' placeholder='Enter survey question 7')
-                .form-group
-                    label(name='q8') Question 8
-                    input.form-control(type='text' name='ques8' placeholder='Enter survey question 8')
-                .form-group
-                    button.btn.btn-primary(type='submit') Create
+                h1.h2 CURRENT SURVEY TAKEN BY THE EVALUATORS
+            .card
+                .card-body
+                    p #{q1}
+                    p #{q2}
+                    p #{q3}
+                    p #{q4}
+                    p #{q5}
+                    p #{q6}
+                    p #{q7}
+                    p #{q8}
+            tbody
+                form(method='POST' action='/surveys/deleteSurvey')
+                    button.btn.btn-danger(type='submit') Delete Survey
+
 // Icons
 script(src='https://unpkg.com/feather-icons/dist/feather.min.js')
 script.
     feather.replace()
+
 script(type='text/javascript').
-    var url_string = window.location.href;
-    console.log('getting into the script', url_string);
-    var url = new URL(url_string);
-    var c = url.searchParams.get("questions");
-    console.log(c);
+    $(document).ready(function(){
+        alert("hi...");
+        $('#currentSurvey').DataTable({
+            ajax : {
+                url : "http://localhost:3000/surveys/fetchCurrentSurvey",
+                method : "get"
+            },
+            row : [{"data":"question1"},
+                {"data":"question2"},
+                {"data":"question3"},
+                {"data":"question4"},
+                {"data":"question5"},
+                {"data":"question6"},
+                {"data":"question7"},
+                {"data":"question8"}
+            ]
+        });
+    });

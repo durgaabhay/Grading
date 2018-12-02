@@ -10,12 +10,12 @@ const qrCode = require('qrcode');
 const Grid = require('gridfs');
 
 router.get('/showTeams', function (req,res) {
-    console.log("Displaying the teams page" , req.headers , req.session);
+    console.log("Displaying the teams page");
     res.render('teams',{title:'teams'});
 });
 
 router.get('/fetchTeams',   function(req,res) {
-    console.log("fetching team details....");
+    console.log("fetching team details.... token value is", req.body.token);
     Team.find({},{_id: 0 ,teamName:1 , qrCode: 1}).exec()
         .then( data => {
             console.log({data});

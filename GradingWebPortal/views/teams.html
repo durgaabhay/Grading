@@ -109,7 +109,7 @@
         alert("hi...");
         $('#teamTable').DataTable({
             ajax : {
-                url : "http://localhost:3000/teams/fetchTeams",
+                url : "http://localhost:3000/teams/fetchTeams",headers:{'Authorization':'{token}'},
                 method : "get"
             },
             columns : [{"data":"teamName"},
