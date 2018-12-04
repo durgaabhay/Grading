@@ -7,7 +7,8 @@ const Team = require('../models/team');
 const checkAuth = require('../auth/check-auth');
 const private_secret_key = "JWTAuthValue";
 const qrCode = require('qrcode');
-const Grid = require('gridfs');
+const fs = require('fs');
+const AWS = require('aws-sdk');
 
 router.get('/showTeams', function (req,res) {
     console.log("Displaying the teams page");
@@ -40,12 +41,12 @@ router.post('/addTeam',  function(req, res) {
                     teamName : req.body.teamName
                 },private_secret_key,{expiresIn : "15 days"});
                 console.log("The generated QR Code ," , generatedCode);
-                let image = qrCode.toFile('qrcodes/teams/team6.png', generatedCode);
-                var gfs = Grid(mongoose.connection.db,mongoose.mongo);
-                var fileId = new mongoose.mongo.ObjectId();
-                gfs.writeFile({_id: fileId, content_type: 'image/png'},image, function (err, file) {
-                   console.log(file);
-                });
+                qrCode.toFile('qrcodes/teams/qrImg.png', generatedCode);
+                /*fs.readFile('qrcodes/teams/qrImg.png' , function(err,data){
+                   if (err) throw err;
+                   let s3Bucket = new AWS.S3({params:{Bucket:'teamCodes'}});
+
+                });*/
                 const newTeam = new Team({
                     _id: new mongoose.Types.ObjectId(),
                     teamName: req.body.teamName,
@@ -55,10 +56,7 @@ router.post('/addTeam',  function(req, res) {
                     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
                     res.render('dashboard',{title:'Dashboard'});
                 }).catch(err => {
-                    res.status(500).json({
-                        message : "Error adding new team",
-                        error: err
-                    })
+                    res.render('error',{title:err});
                 });
             }
         }).catch(err => {

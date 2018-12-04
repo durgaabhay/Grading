@@ -10,6 +10,11 @@ head
     script(src='http://code.jquery.com/jquery-3.3.1.min.js' integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=' crossorigin='anonymous')
     script(src='https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js')
     script(src='https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js')
+    script(src='https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js')
+    script(src='https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js')
     link(rel='stylesheet' href='https://use.fontawesome.com/releases/v5.0.13/css/all.css' integrity='sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp' crossorigin='anonymous')
     link(rel='stylesheet' href='https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css')
     // Bootstrap core CSS
@@ -47,7 +52,7 @@ nav.navbar.navbar-dark.sticky-top.bg-dark.flex-md-nowrap.p-0
                             span(data-feather='aperture')
                             |                             Preview Survey
                     li.nav-item
-                        a.nav-link(href='/score/showScoreBoard')
+                        a.nav-link(href='/scores/showScoreBoard')
                             span(data-feather='bar-chart-2')
                             |                             Score Board
         main.col-md-9.ml-sm-auto.col-lg-10.pt-3.px-4(role='main')
@@ -55,8 +60,7 @@ nav.navbar.navbar-dark.sticky-top.bg-dark.flex-md-nowrap.p-0
                 h1.h2 TEAMS
             .card
                 .card-body
-                    | Teams Overview!!!!
-                    table#teamTable.table
+                    table#teamTable.table.table-striped
                         thead
                             tr
                                 th(scope='col') Team Name
@@ -75,6 +79,9 @@ script(type='text/javascript').
             },
             columns : [{"data":"teamName"},
                 {"data":"qrCode"}
+            ],
+            buttons: [
+                'copy', 'excel', 'pdf'
             ]
         });
     });
